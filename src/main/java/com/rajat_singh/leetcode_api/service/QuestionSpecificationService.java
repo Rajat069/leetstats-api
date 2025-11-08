@@ -56,7 +56,7 @@ public class QuestionSpecificationService {
             return spec;
         }
 
-        Specification<QuestionEntity> combinedFilters = null;
+        Specification<QuestionEntity> combinedFilters;
         if ("ALL".equalsIgnoreCase(filters.getFilterCombineType())) {
             combinedFilters = allSpecs.get(0);
             for (int i = 1; i < allSpecs.size(); i++) {
@@ -109,6 +109,7 @@ public class QuestionSpecificationService {
     private Specification<QuestionEntity> withTopics(QuestionSearchRequest.TopicFilter filter) {
         return (root, query, builder) -> {
 
+            assert query != null;
             query.distinct(true);
 
             if (filter.getOperator() == FilterOperator.IS_NOT) {

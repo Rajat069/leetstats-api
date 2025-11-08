@@ -136,7 +136,7 @@ public class LeetCodeService {
             UserLeetCodeCalendarResponse.UserCalendar rawCalendar = response.getData()
                     .getMatchedUser()
                     .getUserCalendar();
-            Map<String, Integer> submissionMap = null;
+            Map<String, Integer> submissionMap;
             String calendarJsonString = rawCalendar.getSubmissionCalendar();
 
             try {
