@@ -2,10 +2,8 @@ package com.rajat_singh.leetcode_api.service;
 
 
 import com.rajat_singh.leetcode_api.client.LeetCodeClient;
-import com.rajat_singh.leetcode_api.dto.UserContestBiggestRatingJump;
-import com.rajat_singh.leetcode_api.dto.UserContestRanking;
-import com.rajat_singh.leetcode_api.dto.UserContestRankingHistory;
-import com.rajat_singh.leetcode_api.dto.UserContestResponse;
+import com.rajat_singh.leetcode_api.dto.*;
+import com.rajat_singh.leetcode_api.entity.ContestDataEntity;
 import com.rajat_singh.leetcode_api.entity.UserContestHistoryEntity;
 import com.rajat_singh.leetcode_api.enums.ContestFilterType;
 import com.rajat_singh.leetcode_api.enums.UserContestType;
@@ -13,9 +11,13 @@ import com.rajat_singh.leetcode_api.exceptions.InvalidContestTime;
 import com.rajat_singh.leetcode_api.exceptions.InvalidTrendDirection;
 import com.rajat_singh.leetcode_api.exceptions.NoMatchingContest;
 import com.rajat_singh.leetcode_api.exceptions.UserNotFoundException;
+import com.rajat_singh.leetcode_api.mappers.ContestMapper;
 import com.rajat_singh.leetcode_api.repository.ContestHistoryRepository;
+import com.rajat_singh.leetcode_api.repository.GlobalLeetCodeContestsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.tinylog.Logger;
 
@@ -33,6 +35,8 @@ public class LeetCodeContestService {
 
     private final LeetCodeClient leetCodeClient;
     private final ContestHistoryRepository userContestHistoryRepository;
+    private final GlobalLeetCodeContestsRepository globalLeetCodeContestsRepository;
+    private final ContestMapper contestMapper;
 
     @Cacheable(value = "contestRankingCache", key = "#username")
     public Optional<UserContestRanking> getUserContestRanking(String username){
@@ -294,6 +298,17 @@ public class LeetCodeContestService {
         dto.setContest(contest);
 
         return Optional.of(dto);
+    }
+
+    public Page<ContestDTO> getContestsInfo(Pageable page){
+
+        Page<ContestDataEntity> entityPage = globalLeetCodeContestsRepository.findAll(page);
+
+        if(entityPage.isEmpty()){
+            Logger.warn("No contests found");
+            return Page.empty();
+        }
+        return entityPage.map(contestMapper::entityToDTO);
     }
 
 }

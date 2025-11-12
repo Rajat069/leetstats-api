@@ -21,6 +21,7 @@ import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.rajat_singh.leetcode_api.graphql.GraphQlQueries.*;
@@ -283,5 +284,54 @@ public class LeetCodeClient {
         HttpEntity<Map<String ,Object>> entity = new HttpEntity<>(requestBody, headers);
         return restTemplate.postForObject(leetcodeApiUrl,entity,DailyCodingChallengeResponse.class);
     }
+
+    @RateLimiter(name = "leetcode-api")
+    public List<ContestsDTO.ContestData> fetchAllPastContest() {
+
+        int pageNo = 1;
+        int numPerPage = 10;
+
+        List<ContestsDTO.ContestData> combined = new ArrayList<>();
+
+        while (true) {
+            ContestsDTO response = fetchPage(pageNo, numPerPage);
+
+            Logger.info("Fetched page {} of past contests", pageNo);
+
+            if (response == null || response.getData() == null) break;
+
+            List<ContestsDTO.ContestData> pageData = response.getData().getPastContests().getData();
+
+            if (pageData == null || pageData.isEmpty()) break;
+
+            combined.addAll(pageData);
+
+            int current = response.getData().getPastContests().getCurrentPage();
+            int total = response.getData().getPastContests().getPageNum();
+
+            if (current >= total) break;
+
+            pageNo++;
+        }
+
+        return combined;
+    }
+
+    public ContestsDTO fetchPage(int pageNo, int numPerPage) {
+
+        HttpHeaders headers = new HttpHeaders();
+        setHeader(headers);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("query", FETCH_ALL_PAST_CONTESTS);
+        requestBody.put("operationName", "pastContests");
+        requestBody.put("variables", Map.of("pageNo", pageNo, "numPerPage", numPerPage));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        return restTemplate.postForObject(leetcodeApiUrl, entity, ContestsDTO.class);
+    }
+
+
 
 }

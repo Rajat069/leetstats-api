@@ -298,5 +298,27 @@ public class GraphQlQueries {
             }
             """;
 
+    public static final String FETCH_ALL_PAST_CONTESTS = """
+            query pastContests($pageNo: Int, $numPerPage: Int) {
+              pastContests(pageNo: $pageNo, numPerPage: $numPerPage) {
+                pageNum
+                currentPage
+                totalNum
+                numPerPage
+                data {
+                  title
+                  titleSlug
+                  startTime
+                  originStartTime
+                  cardImg
+                  sponsors {
+                    name
+                    lightLogo
+                    darkLogo
+                  }
+                }
+              }
+            }
+            """;
 
 }

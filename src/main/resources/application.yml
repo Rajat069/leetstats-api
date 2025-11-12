@@ -2,6 +2,9 @@ spring:
   application:
     name: leetcode-api
 
+  scheduler:
+    enabled: false #TODO make it true when deploying via pipeline
+
   jackson:
     serialization:
       indent_output: true

@@ -26,6 +26,9 @@ import java.util.Optional;
 public class LeetCodeQuestionsController {
 
     private final LeetCodeQuestionsService leetCodeQuestionsService;
+    /**
+    * TODO: Migrate questionsRepo's logic inside leetCodeQuestionsService for clean controller
+     */
     private final QuestionsRepository questionsRepository;
     private final QuestionMapper questionMapper;
 
