@@ -33,6 +33,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+            
+      - name: Create required directories for SQLite database
+        run: mkdir -p data      
 
       - name: Build with Maven Wrapper
         run: |
