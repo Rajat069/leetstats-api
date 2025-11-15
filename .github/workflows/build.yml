@@ -78,7 +78,6 @@ jobs:
           port: 22
           source: ${{ steps.find_jar.outputs.JAR_NAME }}
           target: "/opt/leetstats-api" # This is the WorkingDirectory from our systemd file
-          rename: "app.jar"
 
       - name: SSH and Restart Service
         # This action securely logs into our VM and runs the restart commands
