@@ -39,6 +39,19 @@ app:
   api:
     secret: ""
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      # Show detailed health status, including cache and DB checks.
+      show-details: always
+    caches:
+      enabled: true
+
+
 bucket4j:
   cache-name: "default"
   enabled: true

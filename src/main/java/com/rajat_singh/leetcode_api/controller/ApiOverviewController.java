@@ -90,4 +90,18 @@ public class ApiOverviewController {
 
         return ResponseEntity.ok(overview);
     }
+
+    @GetMapping(path = "/robots.txt", produces = "text/plain")
+    public ResponseEntity<String> robotsTxt() {
+        String content = """
+        User-agent: *
+        Disallow: /
+        """;
+        return ResponseEntity.ok(content);
+    }
+
+    @GetMapping(path = "", produces = "application/json")
+    public ResponseEntity<Map<String, Object>> getApiOverviewNoSlash() {
+        return getApiOverview();
+    }
 }
