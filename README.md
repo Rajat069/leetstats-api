@@ -36,6 +36,10 @@ The API base path is `/api/v1`. When run locally, it will be available at:
 ```
 http://localhost:8080/api/v1
 ```
+**Live:**
+```
+https://4.213.1.116.nip.io/api/v1/
+```
 
 ## Run with Maven 🔧
 
@@ -43,6 +47,19 @@ http://localhost:8080/api/v1
 ./mvnw spring-boot:run
 ```
 
+## API Documentation 📚
+
+Interactive API documentation is available via Swagger UI:
+
+**Local:**
+```
+http://localhost:8080/swagger-ui.html
+```
+
+**Live:**
+```
+https://4.213.1.116.nip.io/swagger-ui/swagger-ui/index.html
+```
 ## Endpoints 🚀
 
 All endpoints are relative to the base path `/api/v1`.

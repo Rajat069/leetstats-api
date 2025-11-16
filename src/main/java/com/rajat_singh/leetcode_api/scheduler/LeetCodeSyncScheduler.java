@@ -33,23 +33,26 @@ import static com.rajat_singh.leetcode_api.constants.Constants.*;
 @ConditionalOnProperty(name = "scheduler.enabled", havingValue = "true", matchIfMissing = false)
 public class LeetCodeSyncScheduler {
 
-    @Autowired
-    private LeetCodeClient leetCodeApiClient;
+    private final LeetCodeClient leetCodeApiClient;
+    private final QuestionsRepository questionRepository;
+    private final QuestionMapper questionMapper;
+    private final ContestMapper contestMapper;
+    private final DBUtilities dbUtilities;
+    private final GlobalLeetCodeContestsRepository globalLeetCodeContestsRepository;
 
-    @Autowired
-    private QuestionsRepository questionRepository;
-
-    @Autowired
-    private  QuestionMapper questionMapper;
-
-    @Autowired
-    private ContestMapper contestMapper;
-
-    @Autowired
-    private DBUtilities dbUtilities;
-
-    @Autowired
-    private GlobalLeetCodeContestsRepository globalLeetCodeContestsRepository;
+    public LeetCodeSyncScheduler(LeetCodeClient leetCodeApiClient,
+                                  QuestionsRepository questionRepository,
+                                  QuestionMapper questionMapper,
+                                  ContestMapper contestMapper,
+                                  DBUtilities dbUtilities,
+                                  GlobalLeetCodeContestsRepository globalLeetCodeContestsRepository) {
+        this.leetCodeApiClient = leetCodeApiClient;
+        this.questionRepository = questionRepository;
+        this.questionMapper = questionMapper;
+        this.contestMapper = contestMapper;
+        this.dbUtilities = dbUtilities;
+        this.globalLeetCodeContestsRepository = globalLeetCodeContestsRepository;
+    }
 
     // Runs every week for full data sync
     @Async
