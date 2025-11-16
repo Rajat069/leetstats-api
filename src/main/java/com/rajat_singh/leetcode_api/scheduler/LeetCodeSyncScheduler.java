@@ -129,7 +129,7 @@ public class LeetCodeSyncScheduler {
         Logger.info("LeetCode [POTD] sync completed in {} seconds.", (endTime - startTime) / 1000);
     }
 
-    @Scheduled(cron = "0 30 5 * * ?", zone = "Asia/Kolkata") // Runs every day at 5:30 AM (IST) for POTD removal)
+    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at 12:00 AM (UTC) for POTD removal)
     @Async
     public void removePOTD() {
         Logger.info("Starting LeetCode [POTD] removal... at {}", DateFormat.getDateInstance().format(System.currentTimeMillis()));
