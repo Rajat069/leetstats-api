@@ -95,15 +95,20 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui/index.html
+    # This tells Springdoc to use the forwarded headers to generate the correct HTTPS URL
+    use-forward-headers: true
   info:
     title: leetstats-api
     description: "The API for retrieving your LeetCode profile & Problems statistics"
     version: "0.0.1-SNAPSHOT"
   servers:
-    - url: https://4.213.1.116.nip.io/api/v1
+    - url: https://4.213.1.116.nip.io
       description: Production server
-    - url: http://localhost:8080/api/v1
+    - url: http://localhost:8080
       description: Local development server
 
 scheduler:
   enabled: true #change this to true when deploying via pipeline for testing we can keep it false after once the data is loaded in db
+
+server:
+  forward-headers-strategy: NATIVE
